@@ -13,8 +13,7 @@
 #include <unistd.h>
 #include "libft.h"
 
-void ft_putstr(char *s)
+void	ft_putstr(char *s)
 {
-	while (*s)
-		write(1, s, ft_strlen(s));
+	write(1, s, ft_strlen(s));
 }

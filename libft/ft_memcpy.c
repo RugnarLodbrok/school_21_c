@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 15:02:16 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/06 15:10:13 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/11 15:20:54 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	char *s;
 	char *d;
 
+	if (!src && !dst)
+		return (0);
 	s = (char *)src;
 	d = (char *)dst;
 	while (n--)

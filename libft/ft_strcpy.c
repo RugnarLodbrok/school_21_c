@@ -6,16 +6,16 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 16:31:47 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/06 16:34:33 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/11 20:06:05 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char *ft_strcpy(char *dst, const char *src)
+char	*ft_strcpy(char *dst, const char *src)
 {
 	char *d;
 
 	d = dst;
 	while ((*d++ = *src++))
 		;
-	return dst;
+	return (dst);
 }

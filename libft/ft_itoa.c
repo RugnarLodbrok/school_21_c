@@ -6,13 +6,13 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 18:45:24 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/09 19:13:06 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/11 20:03:58 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-static unsigned int count_digits(int n)
+static unsigned int	count_digits(int n)
 {
 	unsigned int i;
 
@@ -31,7 +31,7 @@ static unsigned int count_digits(int n)
 	return (i);
 }
 
-static void ft_itoa_static(char *s, unsigned int d, int n)
+static void			ft_itoa_static(char *s, unsigned int d, int n)
 {
 	if (n >= 0)
 		n *= -1;
@@ -47,10 +47,10 @@ static void ft_itoa_static(char *s, unsigned int d, int n)
 	}
 }
 
-char *ft_itoa(int n)
+char				*ft_itoa(int n)
 {
-	unsigned int d;
-	char *s;
+	unsigned int	d;
+	char			*s;
 
 	d = count_digits(n);
 	if (!(s = malloc(sizeof(char) * (d + 1))))

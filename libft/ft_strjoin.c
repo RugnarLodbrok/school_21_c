@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char *ret;
 	char *ptr;

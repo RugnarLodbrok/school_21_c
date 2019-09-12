@@ -6,37 +6,33 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 17:32:53 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/06 17:33:36 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/11 18:31:58 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
 {
-	char *hay;
-	char *nee;
+	unsigned int hay_i;
+	unsigned int nee_i;
+	unsigned int len;
 
-	if (!*needle)
-		return (char *)(haystack);
-	while (*haystack++ && n--)
+	len = ft_strlen(needle);
+	if (!len)
+		return ((char *)haystack);
+	hay_i = 0;
+	while (haystack[hay_i] && hay_i < n)
 	{
-		hay = (char *)haystack - 1;
-		nee = (char *)needle;
-		while (1)
-		{
-			if (!*hay)
-				if (!*nee)
-					return (char *)(haystack - 1);
-				else
-					return (0);
-			else if (!*nee)
-				return (char *)(haystack - 1);
-			if (*hay != *nee)
-				break ;
-			hay++;
-			nee++;
-		}
+		nee_i = 0;
+		while (haystack[hay_i + nee_i] == needle[nee_i]
+				&& haystack[hay_i + nee_i]
+				&& needle[nee_i]
+				&& hay_i + nee_i < n)
+			nee_i++;
+		if (nee_i == len)
+			return ((char *)haystack + hay_i);
+		hay_i++;
 	}
 	return (0);
 }

@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-static int islow(int c)
+static int	islow(int c)
 {
 	return (c >= 'a' && c <= 'z');
 }
 
-int ft_toupper(int c)
+int			ft_toupper(int c)
 {
 	if (islow(c))
 		return (c - 32);

@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/06 17:04:10 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/11 20:09:22 by ksticks          ###   ########.fr       */
+/*   Created: 2019/09/12 14:56:24 by ksticks           #+#    #+#             */
+/*   Updated: 2019/09/12 15:14:37 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t n)
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	char *d;
+	t_list *ptr;
+	t_list *ret;
 
-	d = dst;
-	if (!n)
-		return (ft_strlen(src));
-	while (*d++)
-		if (!--n)
-			return (d - dst + ft_strlen(src));
-	d--;
-	while (--n)
-		if (!(*d++ = *src++))
-			return (d - dst - 1);
-	*d = 0;
-	return (d - dst + ft_strlen(src));
+	if (!lst)
+		return (0);
+	ptr = f(lst);
+	ret = ptr;
+	while (lst->next)
+	{
+		lst = lst->next;
+		ptr->next = f(lst);
+		ptr = ptr->next;
+		if (!ptr)
+			return (0);
+	}
+	return (ret);
 }

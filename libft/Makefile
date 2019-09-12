@@ -6,14 +6,14 @@
 #    By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/05 20:27:05 by ksticks           #+#    #+#              #
-#    Updated: 2019/09/09 19:37:20 by ksticks          ###   ########.fr        #
+#    Updated: 2019/09/12 17:08:47 by ksticks          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = gcc
-NAME = libft
+NAME = libft.a
 FLAGS = -Wall -Wextra -Werror
-HEADER = ./includes
+HEADER = .
 SRC = ft_memset.c \
       ft_bzero.c \
       ft_memcpy.c \
@@ -65,21 +65,29 @@ SRC = ft_memset.c \
       ft_putchar_fd.c \
       ft_putstr_fd.c \
       ft_putendl_fd.c \
-      ft_putnbr_fd.c
-OPTION = #-I $(HEADER)
+      ft_putnbr_fd.c \
+      ft_lstnew.c \
+      ft_lstdelone.c \
+      ft_lstdel.c \
+      ft_lstadd.c \
+      ft_lstaddend.c \
+      ft_lstiter.c \
+      ft_lstmap.c
 OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
-$(NAME) :
-	$(CC) $(FLAGS) $(OPTION) -c $(SRC)
-	ar rc $(NAME).a $(OBJ)
-	ranlib $(NAME).a
+$(NAME): $(OBJ)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
+
+%.o: %.c
+	$(CC) $(FLAGS) -c $< -I$(HEADER)
 
 clean :
 	/bin/rm -f $(OBJ)
 
 fclean : clean
-	/bin/rm -f $(NAME).a
+	/bin/rm -f $(NAME)
 
 re : fclean all

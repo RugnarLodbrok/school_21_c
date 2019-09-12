@@ -6,13 +6,13 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 17:05:02 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/09 17:05:21 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/11 18:55:27 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void ft_memdel(void **ap)
+void	ft_memdel(void **ap)
 {
 	free(*ap);
 	*ap = 0;

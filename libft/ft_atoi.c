@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 17:42:44 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/06 17:42:48 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/11 18:50:01 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			ft_atoi(const char *str)
 	if (*str == '+' || *str == '-')
 	{
 		is_positive = -1;
-		if (*str == '-')
+		if (*str == '+')
 			is_positive = 1;
 		str++;
 	}
