@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 15:04:22 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/12 16:05:49 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/12 19:09:56 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct		s_buff
+{
+	char	*buff;
+	int		len;
+}					t_buff;
 
 void				*ft_memset(void *b, int c, size_t len);
 void				ft_bzero(void *s, size_t n);
@@ -83,5 +89,8 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstaddend(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+
+void				t_buff_init(t_buff *b, int len);
+int					t_buff_extend(t_buff *b);
 
 #endif
