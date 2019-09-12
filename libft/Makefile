@@ -72,7 +72,8 @@ SRC = ft_memset.c \
       ft_lstadd.c \
       ft_lstaddend.c \
       ft_lstiter.c \
-      ft_lstmap.c
+      ft_lstmap.c \
+      t_buff.c
 OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
