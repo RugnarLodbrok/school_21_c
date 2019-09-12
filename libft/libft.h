@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 15:04:22 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/12 19:09:56 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/12 20:53:42 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct		s_list
 
 typedef struct		s_buff
 {
-	char	*buff;
+	char	*data;
 	int		len;
 }					t_buff;
 
