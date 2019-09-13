@@ -93,5 +93,6 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
 void				t_buff_init(t_buff *b, size_t size);
 int					t_buff_extend(t_buff *b);
+int					t_buff_add_len(t_buff *b, size_t len);
 
 #endif

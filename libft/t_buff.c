@@ -22,8 +22,16 @@ void	t_buff_init(t_buff *b, size_t size)
 int		t_buff_extend(t_buff *b)
 {
 	b->size *= 2;
-	b->data = re_alloc(b->data, b->size + 1);
-	if (!b->data)
-		return (-1);
+	if (!(b->data = re_alloc(b->data, b->size + 1)))
+		return (0);
 	return (b->size);
+}
+
+int		t_buff_add_len(t_buff *b, size_t len)
+{
+	b->len += len;
+	while (b->len > b->size)
+		if (!t_buff_extend(b))
+			return (0);
+	return (b->len);
 }
