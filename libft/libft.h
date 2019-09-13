@@ -25,7 +25,8 @@ typedef struct		s_list
 typedef struct		s_buff
 {
 	char	*data;
-	int		len;
+	size_t	len;
+	size_t	size;
 }					t_buff;
 
 void				*ft_memset(void *b, int c, size_t len);
@@ -90,7 +91,7 @@ void				ft_lstaddend(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
-void				t_buff_init(t_buff *b, int len);
+void				t_buff_init(t_buff *b, size_t len);
 int					t_buff_extend(t_buff *b);
 
 #endif

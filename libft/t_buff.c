@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-char	*re_alloc(char *ptr, int n)
+char	*re_alloc(char *ptr, size_t n)
 {
 	char *ret;
 
@@ -12,17 +12,17 @@ char	*re_alloc(char *ptr, int n)
 	return (ret);
 }
 
-void	t_buff_init(t_buff *b, int len)
+void	t_buff_init(t_buff *b, size_t len)
 {
-	b->len = len;
+	b->size = len;
 	b->data = malloc(sizeof(char) * (len + 1));
 }
 
 int		t_buff_extend(t_buff *b)
 {
-	b->len *= 2;
-	b->data = re_alloc(b->data, b->len + 1);
+	b->size *= 2;
+	b->data = re_alloc(b->data, b->size + 1);
 	if (!b->data)
 		return (-1);
-	return (b->len);
+	return (b->size);
 }
