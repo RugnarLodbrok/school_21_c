@@ -12,10 +12,11 @@ char	*re_alloc(char *ptr, size_t n)
 	return (ret);
 }
 
-void	t_buff_init(t_buff *b, size_t len)
+void	t_buff_init(t_buff *b, size_t size)
 {
-	b->size = len;
-	b->data = malloc(sizeof(char) * (len + 1));
+	b->size = size;
+	b->len = 0;
+	b->data = malloc(sizeof(char) * (size + 1));
 }
 
 int		t_buff_extend(t_buff *b)

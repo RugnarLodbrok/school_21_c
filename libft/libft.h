@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 15:04:22 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/12 20:53:42 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/13 15:46:34 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void				ft_lstaddend(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
-void				t_buff_init(t_buff *b, size_t len);
+void				t_buff_init(t_buff *b, size_t size);
 int					t_buff_extend(t_buff *b);
 
 #endif
