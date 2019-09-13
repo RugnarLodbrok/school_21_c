@@ -23,7 +23,7 @@ all : $(NAME)
 $(NAME) :
 	$(CC) $(FLAGS) -I $(HEADER) -o get_next_line.o -c get_next_line.c
 	$(CC) $(FLAGS) -I $(HEADER) -o main.o -c main.c
-	$(CC) -o test_gnl main.o get_next_line.o -I $(HEADER) -L ../libft/ -lft
+	$(CC) -o test_gnl main.o get_next_line.o -I $(HEADER) -L libft/ -lft
 
 clean :
 	/bin/rm -f $(OBJ)

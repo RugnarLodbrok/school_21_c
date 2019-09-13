@@ -53,4 +53,14 @@ add_executable(a.out main.c get_next_line.c
 		libft/ft_putchar_fd.c
 		libft/ft_putstr_fd.c
 		libft/ft_putendl_fd.c
-		libft/ft_putnbr_fd.c)
+		libft/ft_putnbr_fd.c
+
+		libft/ft_lstnew.c
+		libft/ft_lstdelone.c
+		libft/ft_lstdel.c
+		libft/ft_lstadd.c
+		libft/ft_lstaddend.c
+		libft/ft_lstiter.c
+		libft/ft_lstmap.c
+
+		libft/t_buff.c)
