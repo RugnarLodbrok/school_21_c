@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 20:26:41 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/17 19:01:42 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/17 19:13:34 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,27 @@
 #include "libft/libft.h"
 #include "get_next_line.h"
 
-char	*do_chunk(t_buff *buff, char *chunk, size_t chunk_size)
+int		do_chunk(t_buff *buff, char *chunk, size_t chunk_size, char **ptr)
 {
-	char	*ptr;
 	size_t	line_size;
 
-	ptr = ft_memchr(chunk, '\n', chunk_size);
-	if (ptr)
+	*ptr = ft_memchr(chunk, '\n', chunk_size);
+	if (*ptr)
 	{
-		line_size = ptr - chunk;
-		t_buff_add_len(buff, line_size);
+		line_size = *ptr - chunk;
+		MALLCHECK0(!line_size || t_buff_add_len(buff, line_size));
 		ft_memcpy(buff->data + buff->len - line_size, chunk, line_size);
 		ft_bzero(chunk, line_size + 1);
-		return (ptr);
 	}
 	else
 	{
-		t_buff_add_len(buff, chunk_size);
+		MALLCHECK0(!chunk_size || t_buff_add_len(buff, chunk_size));
 		ft_memcpy(buff->data + buff->len - chunk_size, chunk, chunk_size);
 		ft_bzero(chunk, chunk_size);
-		return (0);
 	}
+	return (1);
 }
+
 
 int		do_chunk_remainder(t_buff *buff, t_gnl_state *s)
 {
@@ -47,8 +46,11 @@ int		do_chunk_remainder(t_buff *buff, t_gnl_state *s)
 	if (s->end_cursor)
 		chunk_size = s->end_cursor - (s->chunk + BUFF_SIZE - chunk_size);
 	if (s->cursor && s->cursor < s->chunk + BUFF_SIZE - 1)
-		if ((s->cursor = do_chunk(buff, s->cursor + 1, chunk_size)))
+	{
+		MALLCHECK1(do_chunk(buff, s->cursor + 1, chunk_size, &(s->cursor)));
+		if (s->cursor)
 			return (1);
+	}
 	return (0);
 }
 
@@ -74,7 +76,8 @@ int		do_next_reads(int fd, t_buff *b, t_gnl_state *s)
 			s->end_cursor = s->chunk + i;
 		else
 			s->end_cursor = 0;
-		if ((s->cursor = do_chunk(b, s->chunk, i)))
+		MALLCHECK1(do_chunk(b, s->chunk, i, &(s->cursor)));
+		if (s->cursor)
 			return (1);
 	}
 }
