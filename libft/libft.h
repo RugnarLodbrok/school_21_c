@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 15:04:22 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/17 19:13:34 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/17 19:28:27 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 # include <stdlib.h>
 
-# define MALLCHECK(x, r) if (!(x)) return (r);
-# define MALLCHECK0(x) MALLCHECK(x, 0);
-# define MALLCHECK1(x) MALLCHECK(x, -1);
+# define CHECK0RET(x, r) if (!(x)) return (r);
+# define CHECK0RET0(x) CHECK0RET(x, 0);
+# define CHECK0RET1(x) CHECK0RET(x, -1);
 
 typedef struct		s_list
 {

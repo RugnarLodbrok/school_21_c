@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 20:26:41 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/17 19:13:34 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/17 19:29:07 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int		do_chunk(t_buff *buff, char *chunk, size_t chunk_size, char **ptr)
 	if (*ptr)
 	{
 		line_size = *ptr - chunk;
-		MALLCHECK0(!line_size || t_buff_add_len(buff, line_size));
+		CHECK0RET0(!line_size || t_buff_add_len(buff, line_size));
 		ft_memcpy(buff->data + buff->len - line_size, chunk, line_size);
 		ft_bzero(chunk, line_size + 1);
 	}
 	else
 	{
-		MALLCHECK0(!chunk_size || t_buff_add_len(buff, chunk_size));
+		CHECK0RET0(!chunk_size || t_buff_add_len(buff, chunk_size));
 		ft_memcpy(buff->data + buff->len - chunk_size, chunk, chunk_size);
 		ft_bzero(chunk, chunk_size);
 	}
@@ -47,7 +47,7 @@ int		do_chunk_remainder(t_buff *buff, t_gnl_state *s)
 		chunk_size = s->end_cursor - (s->chunk + BUFF_SIZE - chunk_size);
 	if (s->cursor && s->cursor < s->chunk + BUFF_SIZE - 1)
 	{
-		MALLCHECK1(do_chunk(buff, s->cursor + 1, chunk_size, &(s->cursor)));
+		CHECK0RET1(do_chunk(buff, s->cursor + 1, chunk_size, &(s->cursor)));
 		if (s->cursor)
 			return (1);
 	}
@@ -76,7 +76,7 @@ int		do_next_reads(int fd, t_buff *b, t_gnl_state *s)
 			s->end_cursor = s->chunk + i;
 		else
 			s->end_cursor = 0;
-		MALLCHECK1(do_chunk(b, s->chunk, i, &(s->cursor)));
+		CHECK0RET1(do_chunk(b, s->chunk, i, &(s->cursor)));
 		if (s->cursor)
 			return (1);
 	}
@@ -94,7 +94,7 @@ t_gnl_state	*gnl_state_get(t_list **lst, const int fd)
 			return (e->content);
 		e = e->next;
 	}
-	MALLCHECK0((s = malloc(sizeof(t_gnl_state))));
+	CHECK0RET0((s = malloc(sizeof(t_gnl_state))));
 	ft_memset(s->chunk, '0', BUFF_SIZE);
 	s->fd = fd;
 	s->cursor = 0;
@@ -151,10 +151,9 @@ int		get_next_line(const int fd, char **line)
 	t_buff				buff;
 	int					ret;
 
-	MALLCHECK1((state = gnl_state_get(&state_lst, fd)))
-	MALLCHECK1((t_buff_init(&buff, 16)))
-	if (!line)
-		return (-1);
+	CHECK0RET1((state = gnl_state_get(&state_lst, fd)))
+	CHECK0RET1((t_buff_init(&buff, 16)))
+	CHECK0RET1(line)
 	if (do_chunk_remainder(&buff, state))
 		return (terminate(&buff, line, 1));
 	ret = do_next_reads(fd, &buff, state);
