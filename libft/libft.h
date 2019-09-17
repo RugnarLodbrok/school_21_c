@@ -15,6 +15,10 @@
 
 # include <stdlib.h>
 
+# define MALLCHECK(x, r) if (!(x)) return (r);
+# define MALLCHECK0(x) MALLCHECK(x, 0);
+# define MALLCHECK1(x) MALLCHECK(x, -1);
+
 typedef struct		s_list
 {
 	void			*content;
@@ -91,7 +95,7 @@ void				ft_lstaddend(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
-void				t_buff_init(t_buff *b, size_t size);
+void				*t_buff_init(t_buff *b, size_t size);
 int					t_buff_extend(t_buff *b);
 int					t_buff_add_len(t_buff *b, size_t len);
 

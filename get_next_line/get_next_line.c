@@ -6,7 +6,7 @@
 /*   By: ksticks <ksticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 20:26:41 by ksticks           #+#    #+#             */
-/*   Updated: 2019/09/13 19:36:29 by ksticks          ###   ########.fr       */
+/*   Updated: 2019/09/17 19:01:42 by ksticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 #include "libft/libft.h"
 #include "get_next_line.h"
 
-#include <stdio.h>
-
-char *do_chunk(t_buff *buff, char *chunk, size_t chunk_size)
+char	*do_chunk(t_buff *buff, char *chunk, size_t chunk_size)
 {
-	char *ptr;
-	size_t line_size;
+	char	*ptr;
+	size_t	line_size;
 
 	ptr = ft_memchr(chunk, '\n', chunk_size);
 	if (ptr)
@@ -39,35 +37,127 @@ char *do_chunk(t_buff *buff, char *chunk, size_t chunk_size)
 	}
 }
 
-int terminate(t_buff *b, char **line, int return_val)
+int		do_chunk_remainder(t_buff *buff, t_gnl_state *s)
+{
+	size_t chunk_size;
+
+	chunk_size = BUFF_SIZE;
+	if (s->cursor)
+		chunk_size -= s->cursor - s->chunk + 1;
+	if (s->end_cursor)
+		chunk_size = s->end_cursor - (s->chunk + BUFF_SIZE - chunk_size);
+	if (s->cursor && s->cursor < s->chunk + BUFF_SIZE - 1)
+		if ((s->cursor = do_chunk(buff, s->cursor + 1, chunk_size)))
+			return (1);
+	return (0);
+}
+
+int		do_next_reads(int fd, t_buff *b, t_gnl_state *s)
+{
+	int i;
+
+	while (1)
+	{
+		i = read(fd, s->chunk, BUFF_SIZE);
+		if (i < 0)
+		{
+			free(b->data);
+			return (-1);
+		}
+		if (!i)
+		{
+			if (b->len)
+				return (1);
+			return (0);
+		}
+		if (i < BUFF_SIZE)
+			s->end_cursor = s->chunk + i;
+		else
+			s->end_cursor = 0;
+		if ((s->cursor = do_chunk(b, s->chunk, i)))
+			return (1);
+	}
+}
+
+t_gnl_state	*gnl_state_get(t_list **lst, const int fd)
+{
+	t_list *e;
+	t_gnl_state *s;
+
+	e = *lst;
+	while (e)
+	{
+		if (((t_gnl_state *)(e->content))->fd == fd)
+			return (e->content);
+		e = e->next;
+	}
+	MALLCHECK0((s = malloc(sizeof(t_gnl_state))));
+	ft_memset(s->chunk, '0', BUFF_SIZE);
+	s->fd = fd;
+	s->cursor = 0;
+	s->end_cursor = 0;
+	if (!(e = ft_lstnew(s, sizeof(t_gnl_state))))
+	{
+		free(s);
+		return (0);
+	}
+	ft_lstadd(lst, e);
+	return (e->content);
+}
+
+void	gnl_state_remove(t_list **lst, const int fd)
+{
+	t_list	*ptr;
+	t_list	*prev;
+	t_list	*for_delete;
+
+	prev = 0;
+	ptr = *lst;
+	while (ptr)
+	{
+		if (((t_gnl_state*)(ptr->content))->fd == fd)
+		{
+			if (!prev)
+				*lst = ptr->next;
+			else
+				prev->next = ptr->next;
+			for_delete = ptr;
+			ptr = ptr->next;
+			free(for_delete->content);
+			free(for_delete);
+		}
+		else
+		{
+			prev = ptr;
+			ptr = ptr->next;
+		}
+	}
+}
+
+int		terminate(t_buff *b, char **line, int return_val)
 {
 	b->data[b->len] = 0;
 	*line = b->data;
 	return (return_val);
 }
 
-int get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	int i;
-	static char chunk[BUFF_SIZE];
-	static char *cursor;
-	t_buff buff;
+	static t_list		*state_lst;
+	t_gnl_state			*state;
+	t_buff				buff;
+	int					ret;
 
-	t_buff_init(&buff, BUFF_SIZE); //todo: if alloc fails?
-	if (cursor && cursor < chunk + BUFF_SIZE - 1)
-		if ((cursor = do_chunk(&buff, cursor + 1, BUFF_SIZE - (cursor - chunk) - 1)))
-			return (terminate(&buff, line, 1));
-	while (1)
-	{
-		i = read(fd, chunk, BUFF_SIZE);
-		if (i < 0)
-		{
-			free(buff.data);
-			return (-1);
-		}
-		if (!i)
-			return (0);
-		if ((cursor = do_chunk(&buff, chunk, i)))
-			return (terminate(&buff, line, 1));
-	}
+	MALLCHECK1((state = gnl_state_get(&state_lst, fd)))
+	MALLCHECK1((t_buff_init(&buff, 16)))
+	if (!line)
+		return (-1);
+	if (do_chunk_remainder(&buff, state))
+		return (terminate(&buff, line, 1));
+	ret = do_next_reads(fd, &buff, state);
+	if (ret > 0)
+		return (terminate(&buff, line, 1));
+	if (ret == 0)
+		gnl_state_remove(&state_lst, fd);
+	return (ret);
 }
