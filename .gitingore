@@ -1,0 +1,3 @@
+*/cmake-build-debug/*
+*.o
+get_next_line/libft
