@@ -34,8 +34,11 @@ void	*t_buff_init(t_buff *b, size_t size)
 
 int		t_buff_extend(t_buff *b)
 {
+	size_t size_old;
+
+	size_old = b->size;
 	b->size *= 2;
-	if (!(b->data = re_alloc(b->data, b->size + 1, b->len)))
+	if (!(b->data = re_alloc(b->data, b->size + 1, size_old)))
 		return (0);
 	return (b->size);
 }
